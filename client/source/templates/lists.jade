@@ -1,0 +1,31 @@
+//- 
+//- Template
+//- Controller: ListsController
+//- 
+.container.fit
+	section
+		.section-title Your lists
+		hr
+		.input-group
+			input.form-control(type="text" ng-model="new_list.name" ng-enter="addList(new_list.name)" placeholder="Create a new list")
+			.input-group-btn
+				button.btn.btn-default(ng-click="addList()" ng-disabled="new_list_input_lock")
+					i.fa.fa-plus
+		hr
+
+		
+		ul.list-group.scrollable-list(ng-scrolled="feed()" ng-init="feed()")
+	
+			.loader(ng-show="!loaded") Loading...
+
+			//- li.list-group-item(ui-sref="...") 
+			li.list-group-item(ui-sref="list({list:list,id:list._id})" ng-repeat="list in lists")
+				i.fa.fa-list
+				| &nbsp;
+				| {{list.title}}
+				span.badge(ng-if="list.items.length") {{list.done_items}}/{{list.items.length}}
+				span.badge.checked(ng-if="list.done_items && list.done_items === list.items.length")
+					i.fa.fa-check
+				span.badge.empty(ng-if="!list.items.length") empty
+
+		p.text-center(ng-if="loaded && !lists.length") You don't have any lists yet!

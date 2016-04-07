@@ -1,0 +1,39 @@
+//- 
+//- Template
+//- Controller: LoginController
+//- 
+.container
+  .row
+    .col-xs-12.col-sm-6.col-sm-offset-3.col-md-4.col-md-offset-4
+
+      br
+        
+      .text-center
+        .logo.huge
+          i.fa.fa-check
+        h1 Sendlist
+        p An app to send lists!
+
+      .panel.panel-default
+        .panel-heading.ov-auto(ng-init="login_mode=false")
+          div.pull-left
+            b(ng-show="login_mode") Log in
+            b(ng-show="!login_mode") Sign up
+          switch.plain.pull-right(ng-model="login_mode" class="green")
+        .panel-body
+          button.btn.btn-block.btn-block.facebook(ng-click="facebookLogin()") with Facebook &nbsp;
+            i.fa.fa-facebook
+          hr
+          p.text-center or 
+          form(ng-submit="emailLogin(login_mode)")
+            .input-block
+              label.sr-only(for='email') Email
+              input.form-control(ng-model="data.email" name="email" type='email', placeholder='Email' required='' autofocus='')
+            .input-block(ng-show='!login_mode')
+              label.sr-only(for='inputName') Name
+              input#inputName.form-control(ng-model="data.name" ng-required='!login_mode' type='text' placeholder='Name')
+            .input-block
+              label.sr-only(for='password') Password
+              input.form-control(ng-model="data.password" name="password" type='password' placeholder='Password' required='')
+            input.btn.btn-primary.btn-block(type="submit" value="{{ (login_mode)? 'Log in' : 'Sign up' }}")
+            

@@ -1,0 +1,21 @@
+//- 
+//- Template
+//- 
+.container.fit
+	section
+
+		h2.text-center {{list.title}}
+
+		hr
+		.input-group
+			input.form-control(type="text" ng-model="text" ng-enter="addItem(text)" placeholder="Create a new item")
+			.input-group-btn
+				button.btn.btn-default(ng-click="addItem(text)")
+					i.fa.fa-plus
+		hr
+		ul.list-group.list-items
+			li.list-group-item(ng-repeat="item in list.items")
+				| {{item.text}}
+				input(type="checkbox" ng-model="item.done" ng-click="check(item)" ng-disabled="item.checklock")
+
+		p.text-center(ng-if="list.items && !list.items.length") No items to show yet

@@ -1,0 +1,23 @@
+{
+  "name": "Sendlist",
+  "authors": [
+    "Israel Cruz"
+  ],
+  "description": "A web client for sendlist app made in Angular.js",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "public/index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-switch": "^0.1.1",
+    "angular-facebook": "^0.2.3",
+    "jsSHA": "Caligatio/jsSHA#^2.0.2"
+  }
+}
