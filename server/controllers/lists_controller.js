@@ -17,20 +17,16 @@ module.exports = {
 	 */
 	create: function(req,res){
 
-		if(!req.body.items || !req.body.items.length){
-			return res.status(400).send({message:'No items provided'});
-		}
-
 		var list = new List(req.body);
 
-		// list.user = req.user._id;
+		//Set author
+		list.user = req.user._id;
 
 		list.save(function(err,doc){
 			if(err){
-				console.error(err);
 				res.status(400).send({success:false});
 			} else {
-				res.send({success:true});
+				res.send({success:true,list:doc});
 			}
 		});
 	},
@@ -43,8 +39,7 @@ module.exports = {
 	 * 
 	 */
 	feed: function(req,res){
-		// var query = { user: { $in: [req.user._id] } };
-		var query = {};
+		var query = { user: req.user._id };
 		
 		if(req.query.before && req.query.before != 'null'){
 			query.created = { $lt : req.query.before };
@@ -94,12 +89,13 @@ module.exports = {
 	 * Set an item done:
 	 * PUT /lists
 	 * {
-	 *	"item_done" : "56fc70d0c21f54fc49c86696"
+	 *	"item_done" : "56fc70d0c21f54fc49c86696",
+	 *	"done" : false
 	 * }
 	 */
 	update : function(req,res){
 		var query = { 
-			// user: { $in: [req.user._id] }, 
+			user: req.user._id, 
 			_id : req.params.id 
 		};
 
@@ -125,20 +121,17 @@ module.exports = {
 			// Set an item as done
 			query['items._id'] = req.body.item_done;
 			update = {
-				$set : { 'items.$.done' : true }
+				$set : { 'items.$.done' : !!req.body.done }
 			};
 		}
 
-		console.log('Find one and update:',update);
-
 		List.findOneAndUpdate(query,update,{new:true},function(err,out){
 			if(err){
-				console.error(err);
 				res.status(400).send({success:false});
 			} else {
 				var response = {success:true};
 				if(req.body.new_items){
-					// Return created items
+					// Return items
 					response.items = out.items;
 				}
 				res.send(response);
@@ -156,7 +149,7 @@ module.exports = {
 	 */
 	delete : function(req,res){
 		var query = { 
-			// user: { $in: [req.user._id] }, 
+			user: req.user._id, 
 			_id : req.params.id 
 		};
 
@@ -167,6 +160,54 @@ module.exports = {
 				res.send({success:true});
 			}
 		});
+	},
+
+
+	/**
+	 *
+	 * GET
+	 * Find a specific shared list
+	 *
+	 */	
+	find: function(req,res){
+		List.findOne(
+			{ 
+				_id: { $in : [req.params.id]},
+				user: req.user._id
+			},
+			function(err,doc){
+				if(err){
+					res.status(400).send({success:false});
+				} else if(!doc){
+					res.status(404).send({success:false});
+				} else {
+					res.send({success:true,list:doc});
+				}
+			});
+	},
+
+
+	/**
+	 *
+	 * GET
+	 * Find a specific shared list
+	 *
+	 */	
+	shared: function(req,res){
+		List.findOne(
+			{ 
+				_id: { $in : [req.params.id]},
+				shared : true
+			},
+			function(err,doc){
+				if(err){
+					res.status(400).send({success:false});
+				} else if(!doc){
+					res.status(404).send({success:false});
+				} else {
+					res.send({success:true,list:doc});
+				}
+			});
 	}
 
 };
