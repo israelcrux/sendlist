@@ -26,6 +26,7 @@ gulp.task('styles',function(){
 	return gulp.src([
 			//Bower components
 			'bower_components/angular-ui-switch/angular-ui-switch.css',
+			'bower_components/ng-dropdown/dist/css/ng-dropdown.css',
 
 			//Custom styles
 			dev + 'styles/*.styl'
@@ -48,6 +49,7 @@ gulp.task('scripts',function(){
 			//Bower components
 			'bower_components/angular-ui-switch/angular-ui-switch.js',
 			'bower_components/angular-facebook/lib/angular-facebook.js',
+			'bower_components/ng-dropdown/dist/js/ng-dropdown.js',
 			'bower_components/jsSHA/src/sha.js',
 			//Custom scripts
 			dev + 'scripts/**/*.js'

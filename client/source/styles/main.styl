@@ -19,9 +19,9 @@ p.text
 
 navbar_height = 61px
 
-.pull-left
+.fl-left
 	float left
-.pull-right
+.fl-right
 	float right
 
 .ov-auto
@@ -69,6 +69,8 @@ navbar_height = 61px
 	padding-top navbar_height
 
 .sl-user
+	position relative
+	cursor pointer
 	.pic
 		roundpic()
 		width 35px
@@ -130,3 +132,6 @@ span.badge.checked
 	cursor pointer
 	line-height 35px
 	font-size 1.45em
+	
+ul.dropdown-menu.active
+	display block

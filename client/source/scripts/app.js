@@ -178,45 +178,16 @@ app.run( [
 
 
   /**
-   *
-   * Facebook login when SDK is ready
-   *
+   * Destroy session
    */
-  var unregister = $rootScope.$watch(function() {
-    return Facebook.isReady();
-  }, function(newValue) {
+  $rootScope.$on(EVENTS.LOGOUT,function(){
+    SessionService.delete();
+    delete $rootScope.credentials.user;
+    delete $rootScope.credentials.key;
+    $rootScope.credentials = {};
+    $state.go('login');
+  });  
 
-
-    if(!newValue){
-      return null;
-    }
-
-    if($rootScope.credentials.user){
-      return null;
-    }
-
-    //Attempt Facebook login
-    Facebook.getLoginStatus(function(fbresp) {
-      
-      unregister();
-
-      if(fbresp.status !== 'connected') {
-        return null;
-      }
-
-      AuthService.facebookSignup(fbresp.authResponse.accessToken)
-        .then(function(resp){
-          if(resp.success){
-            //Let app know
-            SessionService.store(resp.credentials);
-            $rootScope.credentials = SessionService.read();
-            $rootScope.$broadcast(EVENTS.SESSION_READY,$rootScope.credentials);
-            $state.go('lists');
-          }
-        });
-
-    });    
-  });
 
 
   /**

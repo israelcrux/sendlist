@@ -19,6 +19,8 @@ angular.module('sendlist.constants',[])
  */
 .constant('EVENTS',{
 	LOGIN_SUCCESS: 'login successful',
+	LOGOUT: 'user logs out',
+	SESSION_DESTROYED: 'session is destroyed',
 	SESSION_READY: 'session ready'
 })
 

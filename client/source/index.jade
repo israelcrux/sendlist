@@ -20,13 +20,19 @@ html(lang="en")
       //- App navigation
       //- ----------------------------------------------------------------
       //- include ./templates/partials/nav
-      .nav-bar.padded(ng-if="user")
+      .nav-bar.padded(ng-if="credentials.user")
         .container.fit
-          nav.backer.pull-left(ui-sref="lists" ng-show="state.current.url != '/'")
+          nav.backer.fl-left(ui-sref="lists" ng-show="state.current.url != '/'")
             i.fa.fa-arrow-left
-          nav.sl-user.pull-right
-            .pic(style="background-image:url({{multimedia.userpic(user)}})") 
-            .name {{user.first_name}}
+          nav.sl-user.fl-right(ng-click="dropdown=!dropdown" ng-init="dropdown=false"  ng-blur="dropdown=false")
+            .pic(style="background-image:url({{multimedia.userpic(credentials.user)}})") 
+            .name {{credentials.user.first_name}} &nbsp;
+              span.caret
+            ul.dropdown-menu(ng-class="{'active':dropdown}")
+              li.divider(role='separator')
+              li
+                a(ng-click="logOut()") Log out
+
 
 
       //- ----------------------------------------------------------------

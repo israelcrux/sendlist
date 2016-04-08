@@ -23,6 +23,16 @@ angular.module('sendlist.MainController',[])
 	/**
 	 * User
 	 */
-	$scope.user = $rootScope.credentials.user;
+	$scope.credentials = $rootScope.credentials;
+  $rootScope.$on(EVENTS.SESSION_READY,function(e,credentials){
+		$scope.credentials = credentials;
+  });
+
+	/**
+	 * Log out
+	 */
+	$scope.logOut = function(){
+		$scope.$emit(EVENTS.LOGOUT);
+	};
 
 }]);
