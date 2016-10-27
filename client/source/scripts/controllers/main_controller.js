@@ -24,7 +24,7 @@ angular.module('sendlist.MainController',[])
 	 * User
 	 */
 	$scope.credentials = $rootScope.credentials;
-  $rootScope.$on(EVENTS.SESSION_READY,function(e,credentials){
+  $scope.$on(EVENTS.SESSION_READY,function(e,credentials){
 		$scope.credentials = credentials;
   });
 
